@@ -12,14 +12,22 @@ int main(){
     struct timeval initial_time = {0, 0};
     struct timeval current_time = {0, 0};
 
-    gettimeofday(&initial_time, NULL);
+    if(gettimeofday(&initial_time, NULL) != 0)
+    {
+        perror("Failed to get the time.");
+    }
+
     for (int i = 0; i < ITERATIONS; i++)
     {
         // 0 is the file descriptor for stdin
         read(0, buffer, 0);
     }
-    gettimeofday(&current_time, NULL);
 
+    if(gettimeofday(&current_time, NULL) != 0)
+    {
+        perror("Failed to get the time.");
+    }
+    
     double elapsed_time = current_time.tv_usec - initial_time.tv_usec;
     double average_time  = elapsed_time / ITERATIONS;
     printf("Average time (microseconds): %lf\n", average_time);
